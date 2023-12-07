@@ -7,18 +7,28 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8F6E643F2B223453000BEE93 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8F6E643E2B223453000BEE93 /* GoogleService-Info.plist */; };
 		8FD566332B2230680026B2E6 /* BlumenfeldCartAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD566322B2230680026B2E6 /* BlumenfeldCartAppApp.swift */; };
 		8FD566352B2230680026B2E6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD566342B2230680026B2E6 /* ContentView.swift */; };
 		8FD566372B2230690026B2E6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8FD566362B2230690026B2E6 /* Assets.xcassets */; };
 		8FD5663A2B2230690026B2E6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8FD566392B2230690026B2E6 /* Preview Assets.xcassets */; };
+		8FD566412B2230EE0026B2E6 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD566402B2230EE0026B2E6 /* Models.swift */; };
+		8FD566432B22314A0026B2E6 /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD566422B22314A0026B2E6 /* FirebaseService.swift */; };
+		8FD566452B2231660026B2E6 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD566442B2231660026B2E6 /* ImagePicker.swift */; };
+		8FD566482B2231980026B2E6 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 8FD566472B2231980026B2E6 /* FirebaseAnalytics */; };
+		8FD5664B2B2231AB0026B2E6 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 8FD5664A2B2231AB0026B2E6 /* FirebaseDatabase */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8F6E643E2B223453000BEE93 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8FD5662F2B2230680026B2E6 /* BlumenfeldCartApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BlumenfeldCartApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8FD566322B2230680026B2E6 /* BlumenfeldCartAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlumenfeldCartAppApp.swift; sourceTree = "<group>"; };
 		8FD566342B2230680026B2E6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		8FD566362B2230690026B2E6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8FD566392B2230690026B2E6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		8FD566402B2230EE0026B2E6 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		8FD566422B22314A0026B2E6 /* FirebaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
+		8FD566442B2231660026B2E6 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -26,6 +36,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8FD5664B2B2231AB0026B2E6 /* FirebaseDatabase in Frameworks */,
+				8FD566482B2231980026B2E6 /* FirebaseAnalytics in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -37,6 +49,7 @@
 			children = (
 				8FD566312B2230680026B2E6 /* BlumenfeldCartApp */,
 				8FD566302B2230680026B2E6 /* Products */,
+				8FD566492B2231AB0026B2E6 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -52,7 +65,11 @@
 			isa = PBXGroup;
 			children = (
 				8FD566322B2230680026B2E6 /* BlumenfeldCartAppApp.swift */,
+				8FD566422B22314A0026B2E6 /* FirebaseService.swift */,
 				8FD566342B2230680026B2E6 /* ContentView.swift */,
+				8FD566442B2231660026B2E6 /* ImagePicker.swift */,
+				8F6E643E2B223453000BEE93 /* GoogleService-Info.plist */,
+				8FD566402B2230EE0026B2E6 /* Models.swift */,
 				8FD566362B2230690026B2E6 /* Assets.xcassets */,
 				8FD566382B2230690026B2E6 /* Preview Content */,
 			);
@@ -65,6 +82,13 @@
 				8FD566392B2230690026B2E6 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		8FD566492B2231AB0026B2E6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -83,6 +107,10 @@
 			dependencies = (
 			);
 			name = BlumenfeldCartApp;
+			packageProductDependencies = (
+				8FD566472B2231980026B2E6 /* FirebaseAnalytics */,
+				8FD5664A2B2231AB0026B2E6 /* FirebaseDatabase */,
+			);
 			productName = BlumenfeldCartApp;
 			productReference = 8FD5662F2B2230680026B2E6 /* BlumenfeldCartApp.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +139,9 @@
 				Base,
 			);
 			mainGroup = 8FD566262B2230680026B2E6;
+			packageReferences = (
+				8FD566462B2231980026B2E6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			productRefGroup = 8FD566302B2230680026B2E6 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -127,6 +158,7 @@
 			files = (
 				8FD5663A2B2230690026B2E6 /* Preview Assets.xcassets in Resources */,
 				8FD566372B2230690026B2E6 /* Assets.xcassets in Resources */,
+				8F6E643F2B223453000BEE93 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -137,7 +169,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8FD566412B2230EE0026B2E6 /* Models.swift in Sources */,
 				8FD566352B2230680026B2E6 /* ContentView.swift in Sources */,
+				8FD566452B2231660026B2E6 /* ImagePicker.swift in Sources */,
+				8FD566432B22314A0026B2E6 /* FirebaseService.swift in Sources */,
 				8FD566332B2230680026B2E6 /* BlumenfeldCartAppApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -344,6 +379,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		8FD566462B2231980026B2E6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.19.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		8FD566472B2231980026B2E6 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8FD566462B2231980026B2E6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		8FD5664A2B2231AB0026B2E6 /* FirebaseDatabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8FD566462B2231980026B2E6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabase;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 8FD566272B2230680026B2E6 /* Project object */;
 }

@@ -1,0 +1,21 @@
+{
+  "images" : [
+    {
+      "filename" : "gm-ccc7261e-9cfb-4fc8-afd8-65451d0a0822-couple-shopping-in-supermarket-442052.jpg",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
