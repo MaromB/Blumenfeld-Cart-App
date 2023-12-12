@@ -2,26 +2,27 @@ import SwiftUI
 import Firebase
 import FirebaseDatabase
 import UIKit
+import Foundation
 
 
 
 struct ContentView: View {
     @State private var selectedName: Name = .לחץ
     @State private var isWelcomeScreenPresented = false
-    @StateObject private var shoppingList = FirebaseService()
+    @StateObject private var firebaseService = FirebaseService()
     
     var body: some View {
         NavigationView {
                 if !isWelcomeScreenPresented {
                     WelcomeView(selectedName: $selectedName, isWelcomeScreenPresented: $isWelcomeScreenPresented)
                 } else {
-                    ShoppingListView(shoppingList: shoppingList, selectedName: $selectedName)
+                    shoppingListView(firebaseService: firebaseService, selectedName: $selectedName)
                         .frame(height: 1000.0)
                         .offset(y: -100)
                 }
             }
         .onAppear {
-                    shoppingList.configureDatabase()
+                    firebaseService.configureDatabase()
                 }
         }
     }
@@ -31,7 +32,7 @@ struct WelcomeView: View {
     @Binding var selectedName: Name
     @Binding var isWelcomeScreenPresented: Bool
     @State private var showAlert = false
-    
+        
     var body: some View {
         VStack {
             Image("food_logo")
@@ -40,18 +41,20 @@ struct WelcomeView: View {
                 .cornerRadius(30)
             
             Text("עגלת הקניות של \n משפחת בלומנפלד")
+                .font(.title)
                 .fontWeight(.heavy)
                 .multilineTextAlignment(.center)
                 .padding(20)
             
             Text("בחר את עצמך מתוך הרשימה:")
+                .font(.title2)
                 .fontWeight(.regular)
                 .multilineTextAlignment(.leading)
                 .padding(20)
             
             Picker("", selection: $selectedName) {
                 ForEach(Name.allCases, id: \.self) {
-                    Text($0.rawValue).tag($0)
+                    Text($0.rawValue).font(.title).fontWeight(.heavy).tag($0)
                 }
             }.padding()
             
@@ -81,79 +84,114 @@ struct WelcomeView: View {
 }
 
 
-struct ShoppingListView: View {
-    @ObservedObject var shoppingList: FirebaseService
+struct shoppingListView: View {
+    @ObservedObject var firebaseService = FirebaseService()
     @Binding var selectedName: Name
-    @State private var newItem = ""
+    @State private var newItemName  = ""
     @State private var newItemCategory = Category.dry
     @State private var newItemImage: UIImage? = nil
     @State private var showImagePicker = false
-
+    @State private var showCameraPicker = false
+    
     var body: some View {
         NavigationView {
             VStack {
                 List {
                     ForEach(Category.allCases, id: \.self) { category in
                         Section(header: Text(category.localizedString)) {
-                            ForEach(filteredItems(for: category)) { item in
-                                ShoppingItemRow(item: item)
+                            ForEach(filteredItems(for: category), id: \.id) { item in
+                                ShoppingItemRow(item: item, selectedName: $selectedName)
                             }
-                            .onDelete(perform: deleteItems).frame(height: 55.0)
+                            .onDelete { indexSet in
+                                deleteItems(at: indexSet, category: category)
+                            }
                         }
                     }
+                    .frame(height: 30.0)
                 }
-
+                
                 VStack(spacing: 12) {
-                    TextField("הקלד שם פריט...", text: $newItem)
+                    TextField("הקלד את שם הפריט...", text: $newItemName)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding(.bottom, 5.0)
-
+                    
                     Picker("Category", selection: $newItemCategory) {
                         ForEach(Category.allCases, id: \.self) { category in
                             Text(category.localizedString).tag(category)
                         }
                     }
                     .pickerStyle(SegmentedPickerStyle())
-
+                    
                     HStack(spacing: 12) {
                         Button("הוסף פריט") {
-                            if !newItem.isEmpty {
-                                let newItem = ShoppingItem(name: newItem, addedBy: selectedName, category: newItemCategory, image: newItemImage)
-                                shoppingList.items.append(newItem)
-                                resetFields()
+                            if !newItemName.isEmpty {
+                                if let imageData = newItemImage?.jpegData(compressionQuality: 1.0) {
+                                    let base64Image = imageData.base64EncodedString()
+                                    let newItem = ShoppingItem(name: newItemName, addedBy: selectedName, category: newItemCategory, imageData: base64Image)
+                                    firebaseService.addItem(newItem, inCategory: newItemCategory)
+                                    resetFields()
+                                }
+                                else{
+                                    let newItem = ShoppingItem(name: newItemName, addedBy: selectedName, category: newItemCategory, imageData: "")
+                                    firebaseService.addItem(newItem, inCategory: newItemCategory)
+                                    resetFields()
+                                }
                             }
                         }.padding(.trailing, 50.0)
-                        
-                        Button {
-                            showImagePicker = true
-                        } label: {
+                        Menu {
+                            Button("העלה תמונה מאלבום"){
+                                showImagePicker = true
+                            }
+                            Button("צלם תמונה"){
+                                showCameraPicker = true
+                            }
+
+                        }label: {
                             Image(systemName: "photo")
                         }
                     }
                     .padding(.top)
                 }
                 .padding()
-
+                
             }
             .environment(\.layoutDirection, .rightToLeft)
             .padding()
-            .navigationBarTitle("עגלת קניות - בלומנפלד", displayMode: .inline)
+            .navigationBarTitle("Shopping Cart - Blumenfeld", displayMode: .inline)
             .sheet(isPresented: $showImagePicker) {
                 ImagePicker(image: $newItemImage, isPresented: $showImagePicker)
             }
+            .sheet(isPresented: $showCameraPicker) {
+                CameraCaptureView(image: $newItemImage)
+            }
         }
     }
-
-    private func filteredItems(for category: Category) -> [ShoppingItem] {
-        return shoppingList.items.filter { $0.addedBy == selectedName && $0.category == category }
+    
+    
+    func filteredItems(for category: Category) -> [ShoppingItem] {
+        return firebaseService.items.filter { $0.category == category }
     }
-
-    private func deleteItems(at offsets: IndexSet) {
-        shoppingList.items.remove(atOffsets: offsets)
+    
+    func deleteItemLocally(item: ShoppingItem) {
+        if let index = firebaseService.items.firstIndex(where: { $0.id == item.id }) {
+            firebaseService.items.remove(at: index)
+        }
     }
+    
+    func deleteItems(at indices: IndexSet, category: Category) {
+        let itemsToDelete = indices.compactMap { index in
+            filteredItems(for: category)[index]
+        }
+
+        for item in itemsToDelete {
+            deleteItemLocally(item: item)
+            firebaseService.deleteItemFromDatabase(item: item, category: category)
+        }
+    }
+    
 
     private func resetFields() {
-        newItem = ""
+        newItemName  = ""
         newItemCategory = .dry
         newItemImage = nil
     }
@@ -161,16 +199,39 @@ struct ShoppingListView: View {
 
 struct ShoppingItemRow: View {
     let item: ShoppingItem
+    @Binding var selectedName: Name
     @State private var isImageFullScreen = false
+    @State private var showAlert = false
+    
+    private var formattedDate: String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeStyle = .medium
+        return dateFormatter.string(from: item.dateAdded)
+    }
 
     var body: some View {
         HStack{
             VStack(alignment: .leading, spacing: -10) {
-                Text(item.name)
-                    .font(.headline)
+                if selectedName.rawValue == "מורדי" || selectedName.rawValue == "מירב"{
+                    Text(item.name)
+                        .font(.title).fontWeight(.heavy).onTapGesture {
+                            showAlert = true
+                        }
+                }else{
+                    Text(item.name)
+                        .font(.headline).fontWeight(.medium).onTapGesture {
+                            showAlert = true
+                        }
+                }
                 
-                Text("\n נוסף על ידי: \(item.addedBy.rawValue)")
-                    .font(.subheadline)
+
+            }.alert(isPresented: $showAlert) {
+                Alert(
+                    title: Text("מידע"),
+                    message: Text("הפריט נוסף על ידי \(item.addedBy.rawValue) בתאריך ֿֿ\(formattedDate)"),
+                    dismissButton: .default(Text("OK"))
+                    )
             }
             Spacer()
             

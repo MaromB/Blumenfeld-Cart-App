@@ -10,11 +10,11 @@ import SwiftUI
 import FirebaseDatabase
 
 
-enum Name: String, CaseIterable {
-    case  לחץ, מורדי, מירב, מרום, נוי, מאי, שיר, רותם
+enum Name: String, CaseIterable, Codable {
+    case לחץ, מורדי, מירב, מרום, נוי, מאי, שיר, רותם
 }
 
-enum Category: String, CaseIterable {
+enum Category: String, CaseIterable, Codable {
     case dry, vegetablesFruits, chilled, floor_2, subri
     var localizedString: String {
             switch self {
@@ -33,59 +33,93 @@ enum Category: String, CaseIterable {
 }
 
 struct ShoppingItem: Identifiable {
-    let id = UUID()
-    let name: String
+    let id: String
+    let name: String 
     let addedBy: Name
     let category: Category
-    var imageData: String? // Base64-encoded image data
-    var isImageFullScreen = false
-
-    init(name: String, addedBy: Name, category: Category, image: UIImage?) {
+    var imageData: String?
+    let dateAdded: Date
+    
+    init(name: String, addedBy: Name, category: Category, imageData: String?) {
+        let uuid = UUID()
+        self.id =  uuid.uuidString  // Generate a new UUID for each item
         self.name = name
         self.addedBy = addedBy
         self.category = category
-
-        if let image = image {
-            // Convert the UIImage to Data and then to a Base64-encoded string
-            let imageData = image.jpegData(compressionQuality: 0.8)?.base64EncodedString()
-            self.imageData = imageData
-        } else {
-            self.imageData = nil
-        }
+        self.dateAdded = Date()
+        if let imageData = imageData {
+                    self.imageData = encodeAndCompressImage(imageData)
+                } else {
+                    self.imageData = nil
+                }
+    }
+    
+    init(id: String, name: String, addedBy: Name, category: Category, imageData: String?, dateAdded: Date) {
+        self.id = id
+        self.name = name
+        self.addedBy = addedBy
+        self.category = category
+        self.dateAdded = dateAdded
+        if let imageData = imageData {
+                    self.imageData = encodeAndCompressImage(imageData)
+                } else {
+                    self.imageData = nil
+                }
     }
 
-    init?(snapshot: DataSnapshot) {
+
+    init?(snapshotData: [String: Any]) {
         guard
-            let value = snapshot.value as? [String: Any],
-            let name = value["name"] as? String,
-            let addedByRawValue = value["addedBy"] as? String,
+            let name = snapshotData["name"] as? String,
+            let addedByRawValue = snapshotData["addedBy"] as? String,
             let addedBy = Name(rawValue: addedByRawValue),
-            let categoryRawValue = value["category"] as? String,
+            let categoryRawValue = snapshotData["category"] as? String,
             let category = Category(rawValue: categoryRawValue),
-            let imageData = value["imageData"] as? String
+            let imageData = snapshotData["imageData"] as? String,
+            let dateAddedTimestamp = snapshotData["dateAdded"] as? TimeInterval
         else {
+            print("Failed to extract information from snapshot data.")
             return nil
         }
 
-        self.name = name
-        self.addedBy = addedBy
-        self.category = category
-        self.imageData = imageData
+        if let id = snapshotData["id"] as? String{
+                // Initialize with the provided id
+                self.init(id: id, name: name, addedBy: addedBy, category: category, imageData: imageData, dateAdded: Date(timeIntervalSince1970: dateAddedTimestamp))
+            } else {
+                // Generate a new UUID if id is not provided
+                self.init(name: name, addedBy: addedBy, category: category, imageData: imageData)
+            }
     }
 
     func toAnyObject() -> Any {
+        print("Image Data: \(imageData ?? "nil")")
+        
         return [
+            "id": id,
             "name": name,
             "addedBy": addedBy.rawValue,
             "category": category.rawValue,
-            "imageData": imageData ?? ""
+            "imageData": imageData ?? "",
+            "dateAdded": dateAdded.timeIntervalSince1970
         ]
     }
 
     var uiImage: UIImage? {
-        guard let imageData = imageData else {
+        if let imageData = imageData, let data = Data(base64Encoded: imageData) {
+            return UIImage(data: data)
+        }
+        return nil
+    }
+
+    private func encodeAndCompressImage(_ imageData: String?) -> String? {
+        // This method should convert base64-encoded string to compressed base64-encoded string
+        guard let imageData = imageData, let data = Data(base64Encoded: imageData),
+              let image = UIImage(data: data),
+              let compressedData = image.jpegData(compressionQuality: 0.1)
+        else {
             return nil
         }
-        return UIImage(data: Data(base64Encoded: imageData)!)
+        return compressedData.base64EncodedString()
     }
+           
 }

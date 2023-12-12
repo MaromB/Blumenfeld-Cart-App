@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8F415FB62B26FB9300D31897 /* CameraCaptureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F415FB52B26FB9300D31897 /* CameraCaptureView.swift */; };
 		8F6E643F2B223453000BEE93 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8F6E643E2B223453000BEE93 /* GoogleService-Info.plist */; };
-		8FD566332B2230680026B2E6 /* BlumenfeldCartAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD566322B2230680026B2E6 /* BlumenfeldCartAppApp.swift */; };
+		8FD566332B2230680026B2E6 /* BlumenfeldCartApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD566322B2230680026B2E6 /* BlumenfeldCartApp.swift */; };
 		8FD566352B2230680026B2E6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD566342B2230680026B2E6 /* ContentView.swift */; };
 		8FD566372B2230690026B2E6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8FD566362B2230690026B2E6 /* Assets.xcassets */; };
 		8FD5663A2B2230690026B2E6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8FD566392B2230690026B2E6 /* Preview Assets.xcassets */; };
@@ -20,9 +21,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8F415FB52B26FB9300D31897 /* CameraCaptureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraCaptureView.swift; sourceTree = "<group>"; };
 		8F6E643E2B223453000BEE93 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8FD5662F2B2230680026B2E6 /* BlumenfeldCartApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BlumenfeldCartApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		8FD566322B2230680026B2E6 /* BlumenfeldCartAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlumenfeldCartAppApp.swift; sourceTree = "<group>"; };
+		8FD566322B2230680026B2E6 /* BlumenfeldCartApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlumenfeldCartApp.swift; sourceTree = "<group>"; };
 		8FD566342B2230680026B2E6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		8FD566362B2230690026B2E6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8FD566392B2230690026B2E6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -64,10 +66,11 @@
 		8FD566312B2230680026B2E6 /* BlumenfeldCartApp */ = {
 			isa = PBXGroup;
 			children = (
-				8FD566322B2230680026B2E6 /* BlumenfeldCartAppApp.swift */,
+				8FD566322B2230680026B2E6 /* BlumenfeldCartApp.swift */,
 				8FD566422B22314A0026B2E6 /* FirebaseService.swift */,
 				8FD566342B2230680026B2E6 /* ContentView.swift */,
 				8FD566442B2231660026B2E6 /* ImagePicker.swift */,
+				8F415FB52B26FB9300D31897 /* CameraCaptureView.swift */,
 				8F6E643E2B223453000BEE93 /* GoogleService-Info.plist */,
 				8FD566402B2230EE0026B2E6 /* Models.swift */,
 				8FD566362B2230690026B2E6 /* Assets.xcassets */,
@@ -169,11 +172,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8F415FB62B26FB9300D31897 /* CameraCaptureView.swift in Sources */,
 				8FD566412B2230EE0026B2E6 /* Models.swift in Sources */,
 				8FD566352B2230680026B2E6 /* ContentView.swift in Sources */,
 				8FD566452B2231660026B2E6 /* ImagePicker.swift in Sources */,
 				8FD566432B22314A0026B2E6 /* FirebaseService.swift in Sources */,
-				8FD566332B2230680026B2E6 /* BlumenfeldCartAppApp.swift in Sources */,
+				8FD566332B2230680026B2E6 /* BlumenfeldCartApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -310,17 +314,19 @@
 				DEVELOPMENT_TEAM = 8473X5M8BA;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = marom.BlumenfeldCartApp;
+				PRODUCT_BUNDLE_IDENTIFIER = marom.Blumenfeld;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -339,17 +345,19 @@
 				DEVELOPMENT_TEAM = 8473X5M8BA;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = marom.BlumenfeldCartApp;
+				PRODUCT_BUNDLE_IDENTIFIER = marom.Blumenfeld;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
